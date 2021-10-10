@@ -16,6 +16,70 @@ Sometimes, we add code logic and it gets scattered and tangled across the applic
 - **JBoss:** It is an open source Java application server developed by JBoss, used for Java development.
 - **Spring:** It uses XML based configuration for implementing AOP, also it uses annotations which are interpreted by using a library supplied by AspectJ for parsing and matching.
 
+## Intro to AspectJ
+
+AOP is a programming paradigm that aims to increase modularity by allowing the separation of cross-cutting concerns. It does so by adding additional behavior to existing code without modification of the code itself. Instead, we declare separately which code is to modify.
+
+[AspectJ](https://eclipse.org/aspectj/) implements both concerns and the weaving of crosscutting concerns using extensions of Java programming language.
+
+### Maven Dependencies
+
+AspectJ offers different libraries depending on its usage. We can find Maven dependencies under group [org.aspectj](https://search.maven.org/classic/#search|ga|1|g%3A"org.aspectj") in the Maven Central repository.
+
+In this article, we focus on dependencies needed to create aspects and Weaver using the compile-time, post-compile, and load-time Weavers.
+
+###  AspectJ Runtime
+
+When running an AspectJ program, the classpath should contain the classes and aspects along with the AspectJ runtime library *aspectjrt.jar**:*
+
+```
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjrt</artifactId>
+    <version>1.8.9</version>
+</dependency>
+```
+
+### AspectJWeaver
+
+Besides the AspectJ runtime dependency, we will also need to include the *aspectjweaver.jar* to introduce advice to Java class at load time:
+
+```
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjweaver</artifactId>
+    <version>1.8.9</version>
+</dependency>
+```
+
+## **Aspect Creation**
+
+AspectJ provides an implementation of AOP and has **three core concepts:**
+
+- Join Point
+- Pointcut
+- Advice
+
+We'll demonstrate these concepts by creating a simple program to validate a user account balance.
+
+First, let's create an *Account* class with a given balance and a method to withdraw:
+
+```
+public class Account {
+    int balance = 20;
+
+    public boolean withdraw(int amount) {
+        if (balance < amount) {
+            return false;
+        } 
+        balance = balance - amount;
+        return true;
+    }
+}
+```
+
+
+
 ## How to Implement AOP with Spring
 
 Ways to implement AOP:
@@ -32,3 +96,6 @@ Ways to implement AOP:
    
    **How Aspect-Oriented Programming works with Spring:**
    One may think that invoking a method will automatically implement cross-cutting concerns but that is not the case. Just invocation of the method does not invoke the advice(the job which is meant to be done). Spring uses **proxy based mechanism** i.e. it creates a proxy Object which will wrap around the original object and will take up the advice which is relevant to the method call. Proxy objects can be created either manually through proxy factory bean or through auto proxy configuration in the XML file and get destroyed when the execution completes. Proxy objects are used to enrich the Original behaviour of the real object.
+
+https://www.baeldung.com/aspectj
+

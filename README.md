@@ -27,3 +27,8 @@ Ways to implement AOP:
 3. By AspectJ annotation style 
 
    ![Image title](https://dz2cdn1.dzone.com/storage/temp/10659870-ways.png)
+   
+   Currently, **AspectJ libraries with Spring framework** are dominant in the market, therefore let’s have an understanding of how Aspect-oriented programming works with Spring.
+   
+   **How Aspect-Oriented Programming works with Spring:**
+   One may think that invoking a method will automatically implement cross-cutting concerns but that is not the case. Just invocation of the method does not invoke the advice(the job which is meant to be done). Spring uses **proxy based mechanism** i.e. it creates a proxy Object which will wrap around the original object and will take up the advice which is relevant to the method call. Proxy objects can be created either manually through proxy factory bean or through auto proxy configuration in the XML file and get destroyed when the execution completes. Proxy objects are used to enrich the Original behaviour of the real object.

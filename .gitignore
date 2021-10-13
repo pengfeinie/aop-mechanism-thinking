@@ -2,3 +2,4 @@
 /.idea/*.iml
 /.idea
 /aspectJ-aop-hello1/*.iml
+/aspectj-aop-hello1/target/classes/org/example/*.class

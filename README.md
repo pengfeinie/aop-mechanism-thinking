@@ -141,11 +141,27 @@ Ways to implement AOP:
    </aop:config>
    ```
    
+   #### Declaring Advice
    
+   The schema-based AOP support uses the same five kinds of advice as the @AspectJ style, and they have exactly the same semantics.
    
+   ##### Before Advice
    
+   ```
+   <aop:config>
    
+       <aop:aspect id="myAspect" ref="aBean">
    
+           <aop:pointcut id="businessService"
+               expression="execution(* com.xyz.myapp.service.*.*(..))"/>
+   
+            <aop:before pointcut-ref="businessService" method="monitor"/>
+            
+            <aop:after-returning pointcut-ref="dataAccess" method="doAccessCheck"/>
+       </aop:aspect>
+   
+   </aop:config>
+   ```
    
    
    

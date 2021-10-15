@@ -84,12 +84,81 @@ public class Account {
 
 Ways to implement AOP:
 
-1. By Spring 1.2 - dtd-based style (old style)
+2. Spring XML Configuration Style (Schema-based AOP Support)
 
-2. Spring XML Configuration Style
+3. By AspectJ annotation style (@AspectJ Support)
 
-3. By AspectJ annotation style 
-
+   
+   
+   If you prefer an XML-based format, Spring also offers support for defining aspects using the `aop` namespace tags. The exact same pointcut expressions and advice kinds as when using the @AspectJ style are supported. To use the aop namespace tags described in this section, you need to import the `spring-aop` schema. Within your Spring configurations, all aspect and advisor elements must be placed within an `<aop:config>` element (you can have more than one `<aop:config>` element in an application context configuration). An `<aop:config>` element can contain pointcut, advisor, and aspect elements (note that these must be declared in that order).
+   
+   #### Declaring an Aspect
+   
+   When you use the schema support, an aspect is a regular Java object defined as a bean in your Spring application context. The state and behavior are captured in the fields and methods of the object, and the pointcut and advice information are captured in the XML.
+   
+   You can declare an aspect by using the `<aop:aspect>` element, and reference the backing bean by using the `ref` attribute, as the following example shows:
+   
+   ```
+   <aop:config>
+       <aop:aspect id="myAspect" ref="aBean">
+           ...
+       </aop:aspect>
+   </aop:config>
+   
+   <bean id="aBean" class="...">
+       ...
+   </bean>
+   ```
+   
+   #### Declaring a Pointcut
+   
+   You can declare a named pointcut inside an `<aop:config>` element, letting the pointcut definition be shared across several aspects and advisors.
+   
+   A pointcut that represents the execution of any business service in the service layer can be defined as follows:
+   
+   ```
+   <aop:config>
+   
+       <aop:pointcut id="businessService"
+           expression="execution(* com.xyz.myapp.service.*.*(..))"/>
+   
+   </aop:config>
+   ```
+   
+   Then declaring a pointcut inside an aspect is very similar to declaring a top-level pointcut, as the following example shows:
+   
+   ```
+   <aop:config>
+   
+       <aop:aspect id="myAspect" ref="aBean">
+   
+           <aop:pointcut id="businessService"
+               expression="execution(* com.xyz.myapp.service.*.*(..))"/>
+   
+           ...
+       </aop:aspect>
+   
+   </aop:config>
+   ```
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    ![Image title](https://dz2cdn1.dzone.com/storage/temp/10659870-ways.png)
    
    Currently, **AspectJ libraries with Spring framework** are dominant in the market, therefore let’s have an understanding of how Aspect-oriented programming works with Spring.
